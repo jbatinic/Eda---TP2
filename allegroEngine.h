@@ -1,17 +1,12 @@
 
-
-
-
-
 #ifndef ALE_ENGINE
 #define ALE_ENGINE
 
-int inicializacion(void);
+int inicializacion(int width, int height);
 void erase_events(void);
-void create_pantalla(void);
+void create_tablero(int width, int height);
 void close(void);
-void update_board(int cant_robots);
-void init_board(void);
-void init_robots(int cant_robots);
+void update_board(int board_height, int board_width, bool* my_floor);
+void print_robot(double x, double y);
 
 #endif // ALE_ENGINE

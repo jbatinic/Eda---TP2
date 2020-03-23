@@ -27,21 +27,17 @@ Robot
 
 //Piso:
 
-#define SUCIO false
-#define LIMPIO true
 
 // typedef bool baldosa;
-
-extern int my_floor[5][5];
 
 
 baldosa* createFloor(unsigned int height, unsigned int width) {
     baldosa* ret = NULL;
-    int i;
+    unsigned int i;
     ret = (baldosa*) malloc(height * width * sizeof(baldosa));
     if (ret != NULL) {
         for (i = 0; i < height * width; i++) {
-            ret[i] = SUCIO;
+            *(ret+i) = false;
         }
     }
     return ret;
@@ -52,9 +48,9 @@ void freeFloor(baldosa* p) {
 }
 
 bool isFloorClean(baldosa* my_floor, unsigned int height, unsigned int width) {
-    int i;
+    unsigned int i;
     for (i = 0; i < height * width; i++) {
-        if (my_floor[i] = SUCIO) {
+        if (my_floor[i] == false) {
             return false;
         }
     }
@@ -70,7 +66,7 @@ bool isFloorClean(baldosa* my_floor, unsigned int height, unsigned int width) {
 //Robot:
 
 robot* createRobots(unsigned int count, unsigned int height, unsigned int width) {
-    int i;
+    unsigned int i;
     robot* my_robots = (robot*) malloc(count * sizeof(robot));
     if (my_robots != NULL) {
         for (i = 0; i < count; i++) {
@@ -101,9 +97,11 @@ void moveRobot(robot* robot, baldosa* piso, unsigned int width, unsigned int hei
 //Simulation:
 
 simulation * createSim(unsigned int count, unsigned int height, unsigned int width) {
+    
     simulation* my_sim = (simulation*)malloc(sizeof(simulation));
-    my_sim->robot_count = count;
+
     my_sim->height = height;
+    my_sim->robot_count = count;
     my_sim->width = width;
     my_sim->my_robots = createRobots(count, height, width);
     my_sim->floor = createFloor(height, width);

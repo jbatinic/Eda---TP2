@@ -1,6 +1,6 @@
 #include <iostream>
-#include "simEngine.h"
 #include "allegroEngine.h"
+
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
@@ -10,13 +10,9 @@
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_audio.h>
 
-extern int my_floor[5][5];
-extern robot robots[10];
-
 
 #define FPS    60.0
-#define HEIGHT 500
-#define WIDTH  500
+
 #define CUADRADITO_SIZE 20
 #define MOVE_RATE  4.0
 
@@ -28,11 +24,11 @@ ALLEGRO_EVENT_QUEUE* event_queue;
 
 ALLEGRO_EVENT ev;
 
-ALLEGRO_BITMAP* robotjpg = NULL;
+ALLEGRO_BITMAP* robot_img = NULL;
 
 int close_display = 0;
 
-int inicializacion(void) {
+int inicializacion(int width, int height) {
 
 
 
@@ -61,7 +57,7 @@ int inicializacion(void) {
     }
 
 
-    display = al_create_display(WIDTH, HEIGHT);
+    display = al_create_display(width*100, height*100);
 
     //se crea el display
 
@@ -74,17 +70,18 @@ int inicializacion(void) {
         return -1;
     }
 
-    robotjpg = al_load_bitmap("robotjpg.bmp");
+    robot_img = al_load_bitmap("robot_img.png");
 
-    if (!robotjpg) {
-        fprintf(stderr, "failed to load image robotjpg !\n");
-        return 0;
+    if (!robot_img) {
+        fprintf(stderr, "failed to load image robot_img !\n");
+        return -1;
     }
 
     al_clear_to_color(al_color_name("white"));          //se pinta las dos caras del display con blanco
     al_flip_display();
     al_clear_to_color(al_color_name("white"));
 
+    return 0;
 }
 
 void erase_events(void) {
@@ -92,22 +89,28 @@ void erase_events(void) {
 }
 
 
-void create_pantalla(void) {           //se crea el grafico 
+void create_tablero(int width, int height) {           //se crea el grafico 
     int i, j;
 
-    for (i = 0;i < 5;i++)
-        for (j = 0;j < 5;j++) {
+    for (i = 0; i < height; i++) {
+        for (j = 0; j < width; j++) {
 
-            al_draw_filled_rectangle(WIDTH * j / 5, HEIGHT * i / 5, WIDTH * (j + 1) / 5, HEIGHT * (i + 1 ) / 5, al_map_rgb(220, 220, 220));
-            al_draw_rectangle(WIDTH * j / 5, HEIGHT * i / 5, WIDTH * (j + 1) / 5, HEIGHT * (i + 1) / 5, al_map_rgb(0, 0, 0), 0);
-
-
+            al_draw_filled_rectangle(100 * j, 100 * i, 100 * (j + 1), (i + 1) * 100, al_map_rgb(220, 220, 220));
+            al_draw_rectangle(100 * j, 100 * i, 100 * (j + 1), (i + 1) * 100, al_map_rgb(0, 0, 0), 0);
 
         }
-    al_draw_rectangle(0,0, WIDTH, HEIGHT, al_map_rgb(70, 70, 70), 3);
+    }
+    al_draw_rectangle(0,0, width, height, al_map_rgb(70, 70, 70), 3);
     al_flip_display();
 
+}
 
+void create_graph(double* t_medio, int last_n) {
+    int i;
+
+    for (i = 0; i < last_n; i++) {
+        //draw v_medio
+    }
 }
 
 
@@ -125,54 +128,36 @@ void close(void) { // funcion que desinstala los plugins de alegro
 
 }
 
-void update_board(int cant_robots) { // funcion principal en el juego
-                                     // esta funcion actualiza el floor y lo imprime en pantalla
-    int i, j,xp,yp;
+void update_board( int board_height, int board_width, bool*my_floor) { // funcion principal en el juego
+                                                                                                         // esta funcion actualiza el floor y lo imprime en pantalla
+    int i, j;
 
-    for (i = 0;i < 5;i++) {
+    for (i = 0;i < board_height;i++) {
 
+        for (j = 0;j < board_width;j++) {
 
-        for (j = 0;j < 5;j++) {
-
-
-            if (my_floor[i][j]) {
+            if (my_floor[i*board_width+j]) {
 
 
-                    al_draw_filled_rectangle(WIDTH * j / 25, HEIGHT * i / 19, WIDTH * (j+ 1) / 25, HEIGHT * (i + 1) / 19, al_color_name("white"));
-                    al_draw_rectangle(WIDTH * j / 25, HEIGHT * i / 19, WIDTH * (j + 1) / 25, HEIGHT * (i + 1) / 19, al_map_rgb(70, 70, 70), 0);
+                    al_draw_filled_rectangle(board_width * 100 * j / 25, board_height * 100 * i / 19, board_width * 100 * (j+ 1) / 25, board_height * 100 * (i + 1) / 19, al_color_name("brown"));
+                    al_draw_rectangle(board_width * 100 * j / 25, board_height * 100 * i / 19, board_width * 100 * (j + 1) / 25, board_height * 100 * (i + 1) / 19, al_map_rgb(70, 70, 70), 0);
 
 
             }
 
-            for (i = 0;i < cant_robots;i++) {
-
-                xp = ((int)robots[i].x) * 100;
-                yp = ((int)robots[i].y) * 100;
-                al_draw_bitmap(robotjpg, xp, yp, 0);
-
-            }
         }
 
     }
-    al_draw_rectangle(0,0, WIDTH, HEIGHT , al_map_rgb(70, 70, 70), 3);
+    al_draw_rectangle(0,0, board_width * 100, board_height * 100, al_map_rgb(70, 70, 70), 3);
     al_flip_display();
 
 }
 
+void print_robot (double x, double y){
 
-void init_robots(int cant_robots) { // funcion que imprime los robots en la pos inicial 
-                         
-    int i, xp, yp;
-    al_set_target_backbuffer(display);
-
-    for (i = 0;i < cant_robots;i++) {
-
-        xp= ((int) robots[i].x)*100;
-        yp = ((int) robots[i].y)*100;
-        al_draw_bitmap(robotjpg, xp, yp, 0);
-
-    }
-
+    int xp = (int) (x * 100);
+    int yp = (int) (y * 100);
+    al_draw_bitmap(robot_img, xp, yp, 0);
     al_flip_display();
 
 }
