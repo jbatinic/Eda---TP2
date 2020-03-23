@@ -56,35 +56,41 @@ int startSim(sim_t* simPtr, int mode) {
 		float totalTicks;
 		float promedio;
 		simPtr->rNum = 0;
-		do {
-			totalTicks = 0;
-			simPtr->rNum++;		
-			for (simulationsDone = 0; simulationsDone < 1000; simulationsDone++) {
-				simPtr->robotPtr = createRobot(simPtr->w, simPtr->h, simPtr->rNum);
-				if ((simPtr->robotPtr) == NULL)
-					return ERROR;
-				simPtr->floorPtr = createFloor(simPtr->w, simPtr->h);
-				if ((simPtr->floorPtr) == NULL)
-					return ERROR;
-				bool clean = false;
-				while (!clean) {
-					for (i = 0; i < (simPtr->rNum); i++) {
-						cleanTile(simPtr->floorPtr, simPtr->robotPtr[i].x, simPtr->robotPtr[i].y);
+		float* tiemposMedios = (float*) malloc(simPtr->w * simPtr->h * sizeof(float) * 3); // 
+		if (tiemposMedios != NULL)
+			do {
+				totalTicks = 0;
+				simPtr->rNum++;
+				for (simulationsDone = 0; simulationsDone < 1000; simulationsDone++) {
+					simPtr->robotPtr = createRobot(simPtr->w, simPtr->h, simPtr->rNum);
+					if ((simPtr->robotPtr) == NULL)
+						return ERROR;
+					simPtr->floorPtr = createFloor(simPtr->w, simPtr->h);
+					if ((simPtr->floorPtr) == NULL)
+						return ERROR;
+					bool clean = false;
+					while (!clean) {
+						for (i = 0; i < (simPtr->rNum); i++) {
+							cleanTile(simPtr->floorPtr, simPtr->robotPtr[i].x, simPtr->robotPtr[i].y);
+						}
+						if (!(clean = (checkFloor(simPtr->floorPtr, simPtr->w, simPtr->h)))) {
+							moveRobot(simPtr->robotPtr, simPtr->rNum, simPtr->w, simPtr->h);
+							simPtr->tick++;
+						}
 					}
-					if (!(clean = (checkFloor(simPtr->floorPtr, simPtr->w, simPtr->h)))) {
-						moveRobot(simPtr->robotPtr, simPtr->rNum, simPtr->w, simPtr->h);
-						simPtr->tick++;
-					}
+					totalTicks += simPtr->tick;
+					cleanFloor(simPtr->floorPtr);
+					shutdown(simPtr->robotPtr);
+					simPtr->tick = 0;
 				}
-				totalTicks += simPtr->tick;
-				cleanFloor(simPtr->floorPtr);
-				shutdown(simPtr->robotPtr);
-				simPtr->tick = 0;
-			}
-		
-			promedio = totalTicks / 1000;
-			//cout << promedio << endl;
-		} while (promedio > 0.5);
+
+				promedio = totalTicks / 1000;
+				//cout << promedio << endl;
+			} while (promedio > 0.5);
+		else
+			cout << "Holaaa" << endl;
+		//LLAMAR A FUNCIÓN QUE GRAFIQUE (toma como parametros tiemposMedios y rNum grafico -- > Tiempo(rNum-1)
+		free(tiemposMedios);
 		return simPtr->rNum;
 	}
 	else return ERROR;
