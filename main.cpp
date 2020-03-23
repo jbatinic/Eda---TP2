@@ -1,13 +1,16 @@
-#include "allegroEngine.h"
-#include "simEngine.h"
-#include <windows.h>
+#include "Header.h"
+#include "simulation.h"
 
-int main(int argc, char** argv) {
-	inicializacion(6,7);
-	create_tablero(6,7);
-	print_robot(2.0, 2.0);
-	Sleep(5000);
-
-	close();
+int main(void) {
+	srand(time(NULL));
+	sim_t *simPtr = createSim(20, 20, 99);
+	int res=startSim(simPtr, 1);
+	if (res == ERROR) {
+		cout << "error" << endl;
+	}
+	else {
+		cout << res << endl;
+		cin.get();
+	}
 	return 0;
 }
