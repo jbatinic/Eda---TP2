@@ -28,7 +28,7 @@ void cleanTile(floor_t *floor, double x, double y) {		//limpia la baldosa indica
 	}
 	else {
 		floor->tile[caso] = true;
-		cout << "state of tile" << caso << floor->tile[caso] << endl;
+		//cout << "state of tile" << caso << floor->tile[caso] << endl;
 	}
 }
 

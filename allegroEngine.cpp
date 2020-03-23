@@ -115,7 +115,7 @@ void create_graph(double* t_medio, int last_n) {
 
 
 
-void close(void) { // funcion que desinstala los plugins de alegro
+void close_window(void) { // funcion que desinstala los plugins de alegro
 
 
 
@@ -136,14 +136,17 @@ void update_board( int board_height, int board_width, bool*my_floor) { // funcio
 
         for (j = 0;j < board_width;j++) {
 
-            if (my_floor[i*board_width+j]) {
+            if (!my_floor[i*board_width+j]) {
 
-
-                    al_draw_filled_rectangle(board_width * 100 * j / 25, board_height * 100 * i / 19, board_width * 100 * (j+ 1) / 25, board_height * 100 * (i + 1) / 19, al_color_name("brown"));
-                    al_draw_rectangle(board_width * 100 * j / 25, board_height * 100 * i / 19, board_width * 100 * (j + 1) / 25, board_height * 100 * (i + 1) / 19, al_map_rgb(70, 70, 70), 0);
-
-
+                al_draw_filled_rectangle(100 * j, 100 * i, 100 * (j + 1), (i + 1) * 100, al_map_rgb(168, 82, 50));
+                al_draw_rectangle(100 * j, 100 * i, 100 * (j + 1), (i + 1) * 100, al_map_rgb(70, 70, 70), 0);
+                
             }
+            else {
+                al_draw_filled_rectangle(100 * j, 100 * i, 100 * (j + 1), (i + 1) * 100, al_color_name("white"));
+                al_draw_rectangle(100 * j, 100 * i, 100 * (j + 1), (i + 1) * 100, al_map_rgb(70, 70, 70), 0);
+            }
+            
 
         }
 

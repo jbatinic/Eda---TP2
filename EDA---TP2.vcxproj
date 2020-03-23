@@ -163,7 +163,6 @@
     <ClCompile Include="allegroEngine.cpp" />
     <ClCompile Include="floor.cpp" />
     <ClCompile Include="robot.cpp" />
-    <ClCompile Include="simEngine.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="simulation.cpp" />
   </ItemGroup>
@@ -175,7 +174,6 @@
     <ClInclude Include="floor.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="robot.h" />
-    <ClInclude Include="simEngine.h" />
     <ClInclude Include="simulation.h" />
   </ItemGroup>
   <ItemGroup>
