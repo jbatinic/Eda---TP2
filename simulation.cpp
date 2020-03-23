@@ -31,25 +31,61 @@ int startSim(sim_t* simPtr, int mode) {
 		simPtr->floorPtr = createFloor(simPtr->w, simPtr->h);
 		if ((simPtr->floorPtr) == NULL)
 			return ERROR;
-		while (!(checkFloor(simPtr->floorPtr,simPtr->w,simPtr->h))) {					
+		bool clean = false;
+		while (!clean) {
 			for (i = 0; i < (simPtr->rNum); i++) {
-				moveRobot(simPtr->robotPtr, simPtr->rNum,simPtr->w,simPtr->h);
 				cleanTile(simPtr->floorPtr, simPtr->robotPtr[i].x, simPtr->robotPtr[i].y);
 			}
-			
-			
+			if (!(clean = (checkFloor(simPtr->floorPtr, simPtr->w, simPtr->h)))) {
+				moveRobot(simPtr->robotPtr, simPtr->rNum, simPtr->w, simPtr->h);
+				simPtr->tick++;
+			}
 			update_board(simPtr->h, simPtr->w, simPtr->floorPtr->tile);
 			for (i = 0; i < (simPtr->rNum); i++) {
 				print_robot(simPtr->robotPtr[i].y, simPtr->robotPtr[i].x);
 			}
-			Sleep(350);
-			simPtr->tick++;
+			Sleep(200);
 		}
+		cleanFloor(simPtr->floorPtr);
+		shutdown(simPtr->robotPtr);
 		close_window();
 		return simPtr->tick;
 	}
 	else if (mode == 2) {
-		int totalSims = 1000;
+		int simulationsDone;
+		float totalTicks;
+		float promedio;
+		simPtr->rNum = 0;
+		do {
+			totalTicks = 0;
+			simPtr->rNum++;		
+			for (simulationsDone = 0; simulationsDone < 1000; simulationsDone++) {
+				simPtr->robotPtr = createRobot(simPtr->w, simPtr->h, simPtr->rNum);
+				if ((simPtr->robotPtr) == NULL)
+					return ERROR;
+				simPtr->floorPtr = createFloor(simPtr->w, simPtr->h);
+				if ((simPtr->floorPtr) == NULL)
+					return ERROR;
+				bool clean = false;
+				while (!clean) {
+					for (i = 0; i < (simPtr->rNum); i++) {
+						cleanTile(simPtr->floorPtr, simPtr->robotPtr[i].x, simPtr->robotPtr[i].y);
+					}
+					if (!(clean = (checkFloor(simPtr->floorPtr, simPtr->w, simPtr->h)))) {
+						moveRobot(simPtr->robotPtr, simPtr->rNum, simPtr->w, simPtr->h);
+						simPtr->tick++;
+					}
+				}
+				totalTicks += simPtr->tick;
+				cleanFloor(simPtr->floorPtr);
+				shutdown(simPtr->robotPtr);
+				simPtr->tick = 0;
+			}
+		
+			promedio = totalTicks / 1000;
+			//cout << promedio << endl;
+		} while (promedio > 0.5);
+		return simPtr->rNum;
 	}
 	else return ERROR;
 }
