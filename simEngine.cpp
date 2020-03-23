@@ -21,6 +21,7 @@ Robot
  */
 
 #include "simEngine.h"
+#include "allegroEngine.h"
 #include <stdlib.h>
 #include <cmath>
 
@@ -30,6 +31,8 @@ Robot
 #define LIMPIO true
 
 // typedef bool baldosa;
+
+extern int my_floor[5][5];
 
 
 baldosa* createFloor(unsigned int height, unsigned int width) {
@@ -60,9 +63,9 @@ bool isFloorClean(baldosa* my_floor, unsigned int height, unsigned int width) {
 
 //Baldosa:
 
-baldosa* getBaldosa(baldosa* my_floor, unsigned int fil_baldosa, unsigned int col_baldosa) {
-    return my_floor[fil_baldosa][col_baldosa];
-}
+//baldosa* getBaldosa(baldosa* my_floor, unsigned int fil_baldosa, unsigned int col_baldosa) {
+//    return (my_floor[fil_baldosa][col_baldosa]);
+//}
 
 //Robot:
 
@@ -105,6 +108,7 @@ simulation * createSim(unsigned int count, unsigned int height, unsigned int wid
     my_sim->my_robots = createRobots(count, height, width);
     my_sim->floor = createFloor(height, width);
     my_sim->time = 0;
+    return 0;
 }
 
 void freeSim(simulation* my_sim) {
@@ -122,4 +126,5 @@ unsigned int simulate(simulation * my_sim) {
         }
         my_sim->time++;
     }
+    return 0;
 }

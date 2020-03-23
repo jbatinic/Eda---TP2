@@ -4,4 +4,9 @@
 
 int main (int argc,char** argv) {
 
+	inicializacion();
+	create_pantalla();
+
+
+
 }
