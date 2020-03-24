@@ -47,7 +47,7 @@ int startSim(sim_t* simPtr, int mode) {
 			for (i = 0; i < (simPtr->rNum); i++) {
 				print_robot((simPtr->robotPtr[i].y), simPtr->robotPtr[i].x);
 			}
-			Sleep(200);
+			Sleep(100);
 		}
 		cleanFloor(simPtr->floorPtr);
 		shutdown(simPtr->robotPtr);
@@ -88,10 +88,8 @@ int startSim(sim_t* simPtr, int mode) {
 				}
 
 				promedio = totalTicks / 1000;
-				//cout << promedio << endl;
 			} while (promedio > 0.5);
 		else
-			cout << "Holaaa" << endl;
 		//LLAMAR A FUNCIÓN QUE GRAFIQUE (toma como parametros tiemposMedios y rNum grafico -- > Tiempo(rNum-1)
 		free(tiemposMedios);
 		return simPtr->rNum;

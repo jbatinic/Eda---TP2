@@ -57,7 +57,7 @@ int inicializacion(int width, int height) {
     }
 
 
-    display = al_create_display(height*100, width*100);
+    display = al_create_display(width*100, height*100);
 
     //se crea el display
 
@@ -128,7 +128,7 @@ void close_window(void) { // funcion que desinstala los plugins de alegro
 
 }
 
-void update_board( int board_width, int board_height, bool*my_floor) { // funcion principal en el juego
+void update_board( int board_height, int board_width, bool*my_floor) { // funcion principal en el juego
                                                                                                          // esta funcion actualiza el floor y lo imprime en pantalla
     int i, j;
 

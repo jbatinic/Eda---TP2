@@ -27,7 +27,6 @@ void moveRobot(robot_t *robotPtr, int robotNum, int width, int height) {		//se m
 	for (i = 0; i<robotNum; i++) {
 		double nx = robotPtr[i].x + cos(robotPtr[i].dir);
 		double ny = robotPtr[i].y + sin(robotPtr[i].dir);
-		cout << "width: " << width << " height: " << height << endl;
 		if ((0 < nx && nx < width) && (0 < ny && ny < height))
 		{
 			robotPtr[i].x = nx;
