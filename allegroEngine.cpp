@@ -138,7 +138,7 @@ void update_board( int board_height, int board_width, bool*my_floor) { // funcio
 
             if (!my_floor[i*board_width+j]) {
 
-                al_draw_filled_rectangle(100 * j, 100 * i, 100 * (j + 1), (i + 1) * 100, al_map_rgb(168, 82, 50));
+                al_draw_filled_rectangle(100 * j, 100 * i, 100 * (j + 1), (i + 1) * 100, al_map_rgb(84, 39, 22));
                 al_draw_rectangle(100 * j, 100 * i, 100 * (j + 1), (i + 1) * 100, al_map_rgb(70, 70, 70), 0);
                 
             }
