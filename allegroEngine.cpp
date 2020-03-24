@@ -25,6 +25,19 @@ ALLEGRO_EVENT_QUEUE* event_queue;
 ALLEGRO_EVENT ev;
 
 ALLEGRO_BITMAP* robot_img = NULL;
+ALLEGRO_BITMAP* N0 = NULL;
+ALLEGRO_BITMAP* N1 = NULL;
+ALLEGRO_BITMAP* N2 = NULL;
+ALLEGRO_BITMAP* N3 = NULL;
+ALLEGRO_BITMAP* N4 = NULL;
+ALLEGRO_BITMAP* N5 = NULL;
+ALLEGRO_BITMAP* N6 = NULL;
+ALLEGRO_BITMAP* N7 = NULL;
+ALLEGRO_BITMAP* N8 = NULL;
+ALLEGRO_BITMAP* N9 = NULL;
+
+
+
 
 int close_display = 0;
 
@@ -76,6 +89,67 @@ int inicializacion(int width, int height) {
         fprintf(stderr, "failed to load image robot_img !\n");
         return -1;
     }
+    N0 = al_load_bitmap("N0.bmp");
+
+    if (!N0) {
+        fprintf(stderr, "failed to load image N0 !\n");
+        return -1;
+    }
+    N1 = al_load_bitmap("N1.bmp");
+
+    if (!N1) {
+        fprintf(stderr, "failed to load image N1 !\n");
+        return -1;
+    }
+    N2 = al_load_bitmap("N2.bmp");
+
+    if (!N2) {
+        fprintf(stderr, "failed to load image N2 !\n");
+        return -1;
+    }
+    N3 = al_load_bitmap("N3.bmp");
+
+    if (!N3) {
+        fprintf(stderr, "failed to load image N3 !\n");
+        return -1;
+    }
+    N4 = al_load_bitmap("N4.bmp");
+
+    if (!N4) {
+        fprintf(stderr, "failed to load image N4 !\n");
+        return -1;
+    }
+    N5 = al_load_bitmap("N5.bmp");
+
+    if (!N5) {
+        fprintf(stderr, "failed to load image N5 !\n");
+        return -1;
+    }
+    N6 = al_load_bitmap("N6.bmp");
+
+    if (!N6) {
+        fprintf(stderr, "failed to load image N6 !\n");
+        return -1;
+    }
+    N7 = al_load_bitmap("N7.bmp");
+
+    if (!N7) {
+        fprintf(stderr, "failed to load image N7 !\n");
+        return -1;
+    }
+    N8 = al_load_bitmap("N8.bmp");
+
+    if (!N8) {
+        fprintf(stderr, "failed to load image N8 !\n");
+        return -1;
+    }
+    N9 = al_load_bitmap("N9.bmp");
+
+    if (!N9) {
+        fprintf(stderr, "failed to load image N9 !\n");
+        return -1;
+    }
+
 
     al_clear_to_color(al_color_name("white"));          //se pinta las dos caras del display con blanco
     al_flip_display();
@@ -130,7 +204,8 @@ void close(void) { // funcion que desinstala los plugins de alegro
 
 void update_board( int board_height, int board_width, bool*my_floor) { // funcion principal en el juego
                                                                                                          // esta funcion actualiza el floor y lo imprime en pantalla
-    int i, j;
+    int i, j, numero , k;
+    static int tick = 0;
 
     for (i = 0;i < board_height;i++) {
 
@@ -148,6 +223,47 @@ void update_board( int board_height, int board_width, bool*my_floor) { // funcio
         }
 
     }
+    // imprimo la cantidad de ticks
+    for (k = ((board_width*100) -10), i = 0;i < 5;i++) {
+
+        numero = tick % 10;
+        switch (numero) {
+
+        case 0: al_draw_bitmap(N0, k,((board_height*100)-10), 0);
+            al_flip_display();
+            break;
+        case 1: al_draw_bitmap(N1, k, ((board_height * 100) - 10), 0);
+            al_flip_display();
+            break;
+        case 2: al_draw_bitmap(N2, k, ((board_height * 100) - 10), 0);
+            al_flip_display();
+            break;
+        case 3: al_draw_bitmap(N3, k, ((board_height * 100) - 10), 0);
+            al_flip_display();
+            break;
+        case 4: al_draw_bitmap(N4, k, ((board_height * 100) - 10), 0);
+            al_flip_display();
+            break;
+        case 5: al_draw_bitmap(N5, k, ((board_height * 100) - 10), 0);
+            al_flip_display();
+            break;
+        case 6: al_draw_bitmap(N6, k, ((board_height * 100) - 10), 0);
+            al_flip_display();
+            break;
+        case 7: al_draw_bitmap(N7, k, ((board_height * 100) - 10), 0);
+            al_flip_display();
+            break;
+        case 8: al_draw_bitmap(N8, k, ((board_height * 100) - 10), 0);
+            al_flip_display();
+            break;
+        case 9: al_draw_bitmap(N9, k, ((board_height * 100) - 10), 0);
+            al_flip_display();
+            break;
+        }
+        tick /= 10;
+        k -= 15;
+    }
+
     al_draw_rectangle(0,0, board_width * 100, board_height * 100, al_map_rgb(70, 70, 70), 3);
     al_flip_display();
 
