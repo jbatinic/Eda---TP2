@@ -7,6 +7,6 @@ void erase_events(void);
 void create_tablero(int width, int height);
 void close_window(void);
 void update_board(int board_height, int board_width, bool* my_floor);
-void print_robot(double x, double y);
+void print_robot(double y, double x);
 
 #endif // ALE_ENGINE

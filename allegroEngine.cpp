@@ -57,7 +57,7 @@ int inicializacion(int width, int height) {
     }
 
 
-    display = al_create_display(width*100, height*100);
+    display = al_create_display(height*100, width*100);
 
     //se crea el display
 
@@ -95,12 +95,12 @@ void create_tablero(int width, int height) {           //se crea el grafico
     for (i = 0; i < height; i++) {
         for (j = 0; j < width; j++) {
 
-            al_draw_filled_rectangle(100 * j, 100 * i, 100 * (j + 1), (i + 1) * 100, al_map_rgb(220, 220, 220));
-            al_draw_rectangle(100 * j, 100 * i, 100 * (j + 1), (i + 1) * 100, al_map_rgb(0, 0, 0), 0);
+            al_draw_filled_rectangle(100 * i, 100 * j, 100 * (i + 1), (j + 1) * 100, al_map_rgb(220, 220, 220));
+            al_draw_rectangle(100 * i, 100 * j, 100 * (i + 1), (j + 1) * 100, al_map_rgb(0, 0, 0), 0);
 
         }
     }
-    al_draw_rectangle(0,0, width, height, al_map_rgb(70, 70, 70), 3);
+    al_draw_rectangle(0,0, height, width, al_map_rgb(70, 70, 70), 3);
     al_flip_display();
 
 }
@@ -128,7 +128,7 @@ void close_window(void) { // funcion que desinstala los plugins de alegro
 
 }
 
-void update_board( int board_height, int board_width, bool*my_floor) { // funcion principal en el juego
+void update_board( int board_width, int board_height, bool*my_floor) { // funcion principal en el juego
                                                                                                          // esta funcion actualiza el floor y lo imprime en pantalla
     int i, j;
 
@@ -156,11 +156,10 @@ void update_board( int board_height, int board_width, bool*my_floor) { // funcio
 
 }
 
-void print_robot (double x, double y){
+void print_robot (double y, double x){
 
     int xp = (int) (x * 100);
     int yp = (int) (y * 100);
     al_draw_bitmap(robot_img, xp, yp, 0);
     al_flip_display();
-
 }

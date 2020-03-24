@@ -24,6 +24,9 @@ void destroySim (sim_t *simPtr) {
 int startSim(sim_t* simPtr, int mode) {
 	int i;
 	if (mode==1) {
+
+		
+		
 		inicializacion(simPtr->w, simPtr->h);
 		simPtr->robotPtr = createRobot(simPtr->w, simPtr->h, simPtr->rNum);
 		if ((simPtr->robotPtr) == NULL)
@@ -42,7 +45,7 @@ int startSim(sim_t* simPtr, int mode) {
 			}
 			update_board(simPtr->h, simPtr->w, simPtr->floorPtr->tile);
 			for (i = 0; i < (simPtr->rNum); i++) {
-				print_robot(simPtr->robotPtr[i].y, simPtr->robotPtr[i].x);
+				print_robot((simPtr->robotPtr[i].y), simPtr->robotPtr[i].x);
 			}
 			Sleep(200);
 		}

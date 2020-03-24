@@ -19,17 +19,8 @@ floor_t* createFloor(int width, int height) {		//crea el arreglo de estructuras 
 }
 
 void cleanTile(floor_t *floor, double x, double y) {		//limpia la baldosa indicada
-	int row = (int)x;
-	int column = (int)y;
-	int width = floor->w;
-	int caso = width*row + column;
-	if (floor->tile[caso] == true) {
-
-	}
-	else {
-		floor->tile[caso] = true;
-		//cout << "state of tile" << caso << floor->tile[caso] << endl;
-	}
+	floor->tile[(floor->h) * ((int)y) + ((int)x)] = true;
+	cout << "tile nr." << (floor->w) * ((int)y) + ((int)x) << endl;
 }
 
 bool checkFloor(floor_t* floor, int width, int height) {						//devuelve cero si hay alguna baldosa sucia, y 1 si todas están limpias
