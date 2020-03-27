@@ -59,8 +59,8 @@ int startSim(sim_t* simPtr, int mode) {
 		float totalTicks;
 		float promedio;
 		simPtr->rNum = 0;
-		float* tiemposMedios = (float*) malloc(100 * sizeof(float));
-		int tiemposMedios_size = 100 * sizeof(float);
+		int tiemposMedios_size = 1000 * sizeof(float);
+		float* tiemposMedios = (float*) malloc(tiemposMedios_size);
 		if (tiemposMedios != NULL)
 			do {
 				totalTicks = 0;
@@ -84,7 +84,8 @@ int startSim(sim_t* simPtr, int mode) {
 					}
 					if (simPtr->rNum * sizeof(float) >= tiemposMedios_size) {
 						tiemposMedios_size += 100 * sizeof(float);
-						if (!realloc(tiemposMedios, tiemposMedios_size)) {
+						void* realloc_ptr = realloc(tiemposMedios, tiemposMedios_size);
+						if (!realloc_ptr) {
 							cleanFloor(simPtr->floorPtr);
 							shutdown(simPtr->robotPtr);
 							return ERROR;
@@ -107,7 +108,7 @@ int startSim(sim_t* simPtr, int mode) {
 			}
 
 			if (!inicializacion(5, 6)) {
-				create_graph(tiemposMedios, simPtr->rNum, simPtr->w, simPtr->h);
+				create_graph(tiemposMedios, simPtr->rNum, 5, 6);
 				return ERROR;
 			}
 			free(tiemposMedios);
