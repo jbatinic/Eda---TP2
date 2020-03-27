@@ -89,11 +89,17 @@ int startSim(sim_t* simPtr, int mode) {
 
 				promedio = totalTicks / 1000;
 			} while (promedio > 0.5);
-		else
-		//LLAMAR A FUNCIÓN QUE GRAFIQUE (toma como parametros tiemposMedios y rNum grafico -- > Tiempo(rNum-1)
-		free(tiemposMedios);
-		return simPtr->rNum;
+		
+			//LLAMAR A FUNCIÓN QUE GRAFIQUE (toma como parametros tiemposMedios y rNum grafico -- > Tiempo(rNum-1)
+			inicializacion(simPtr->w, simPtr->h);
+			for (int i = 0; i < 75; i++) {
+				printf("%d: %f\n", i + 1, tiemposMedios[i]);
+			}
+			create_graph(tiemposMedios, simPtr->rNum, simPtr->w, simPtr->h);
+			free(tiemposMedios);
+			return simPtr->rNum;
 	}
-	else return ERROR;
+	else 
+	return ERROR;
 }
 

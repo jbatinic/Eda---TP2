@@ -105,12 +105,31 @@ void create_tablero(int width, int height) {           //se crea el grafico
 
 }
 
-void create_graph(double* t_medio, int last_n) {
-    int i;
+void create_graph(float* tMedio, int nRobots, int wTiles, int hTiles) {
+    
+    al_clear_to_color(al_color_name("black"));
+    int width = wTiles * 100;
+    int height = hTiles * 100;
+    al_draw_line(50, 50, 50, width - 50, al_map_rgb_f(1, 1, 1), 4);  //se dibuja el eje y
+    al_draw_line(48, height - 50, width - 50, height - 50, al_map_rgb_f(1, 1, 1), 4);  //se dibuja el eje x
 
-    for (i = 0; i < last_n; i++) {
-        //draw v_medio
+    float ancho = ((width - 100) / (nRobots+0.5)); //se calcula el ancho de cada barra del grafico teniendo en cuenta el ancho del display y un espacio entre cada barra
+    float alto = ((height- 100) / (nRobots+0.5)); //se calcula el espacio entre cada valor del eje y
+
+    for (int i = 1; i <= nRobots; i++) {
+        
+       al_draw_line(50 + ancho * i, height - 52, 50 + ancho * i, tMedio[i-1], al_map_rgb_f(1,0,0), ancho/2 );
+   
     }
+
+
+    al_flip_display();
+    al_rest(20);
+    al_shutdown_primitives_addon();
+   
+    
+    al_destroy_display(display);
+    
 }
 
 
