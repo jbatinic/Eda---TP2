@@ -59,6 +59,7 @@ int startSim(sim_t* simPtr, int mode) {
 		float totalTicks;
 		float promedio;
 		simPtr->rNum = 0;
+		bool almostThere = false;
 		int tiemposMedios_size = 1000 * sizeof(float);
 		float* tiemposMedios = (float*) malloc(tiemposMedios_size);
 		if (tiemposMedios != NULL)
@@ -101,7 +102,7 @@ int startSim(sim_t* simPtr, int mode) {
 
 				promedio = totalTicks / 1000;
 				tiemposMedios[(simPtr->rNum)-1] = promedio;
-			} while (promedio > 0.5);
+			} while (promedio > 0.1 || tiemposMedios[(simPtr->rNum) - 2] > 0.1);
 
 			for (int i = 0; i < simPtr->rNum; i++) {
 				printf("%d: %f\n", i + 1, tiemposMedios[i]);
