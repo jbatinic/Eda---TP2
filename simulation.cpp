@@ -71,7 +71,7 @@ int startSim(sim_t* simPtr, int mode) {
 					simPtr->floorPtr = createFloor(simPtr->w, simPtr->h);
 					if ((simPtr->floorPtr) == NULL)
 						return ERROR;
-					bool clean = false;
+					bool clean = false; //
 					while (!clean) {
 						for (i = 0; i < (simPtr->rNum); i++) {
 							cleanTile(simPtr->floorPtr, simPtr->robotPtr[i].x, simPtr->robotPtr[i].y);
