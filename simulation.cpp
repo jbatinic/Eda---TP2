@@ -59,7 +59,8 @@ int startSim(sim_t* simPtr, int mode) {
 		float totalTicks;
 		float promedio;
 		simPtr->rNum = 0;
-		float* tiemposMedios = (float*) malloc(simPtr->w * simPtr->h * sizeof(float) * 3); // 
+		float* tiemposMedios = (float*) malloc(100 * sizeof(float));
+		int tiemposMedios_size = 100 * sizeof(float);
 		if (tiemposMedios != NULL)
 			do {
 				totalTicks = 0;
@@ -71,7 +72,7 @@ int startSim(sim_t* simPtr, int mode) {
 					simPtr->floorPtr = createFloor(simPtr->w, simPtr->h);
 					if ((simPtr->floorPtr) == NULL)
 						return ERROR;
-					bool clean = false; //
+					bool clean = false; 
 					while (!clean) {
 						for (i = 0; i < (simPtr->rNum); i++) {
 							cleanTile(simPtr->floorPtr, simPtr->robotPtr[i].x, simPtr->robotPtr[i].y);
@@ -81,6 +82,16 @@ int startSim(sim_t* simPtr, int mode) {
 							simPtr->tick++;
 						}
 					}
+					if (simPtr->rNum * sizeof(float) >= tiemposMedios_size) {
+						tiemposMedios_size += 100 * sizeof(float);
+						if (!realloc(tiemposMedios, tiemposMedios_size)) {
+							cleanFloor(simPtr->floorPtr);
+							shutdown(simPtr->robotPtr);
+							return ERROR;
+						}
+
+					}
+					
 					totalTicks += simPtr->tick;
 					cleanFloor(simPtr->floorPtr);
 					shutdown(simPtr->robotPtr);
@@ -88,14 +99,17 @@ int startSim(sim_t* simPtr, int mode) {
 				}
 
 				promedio = totalTicks / 1000;
+				tiemposMedios[(simPtr->rNum)-1] = promedio;
 			} while (promedio > 0.5);
-		
-			//LLAMAR A FUNCIÓN QUE GRAFIQUE (toma como parametros tiemposMedios y rNum grafico -- > Tiempo(rNum-1)
-			inicializacion(simPtr->w, simPtr->h);
-			for (int i = 0; i < 75; i++) {
+
+			for (int i = 0; i < simPtr->rNum; i++) {
 				printf("%d: %f\n", i + 1, tiemposMedios[i]);
 			}
-			create_graph(tiemposMedios, simPtr->rNum, simPtr->w, simPtr->h);
+
+			if (!inicializacion(5, 6)) {
+				create_graph(tiemposMedios, simPtr->rNum, simPtr->w, simPtr->h);
+				return ERROR;
+			}
 			free(tiemposMedios);
 			return simPtr->rNum;
 	}
