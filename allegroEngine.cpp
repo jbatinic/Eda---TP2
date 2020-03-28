@@ -9,6 +9,9 @@
 #include <allegro5/allegro5.h>
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_native_dialog.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 
 
 #define FPS    60.0
@@ -56,6 +59,10 @@ int inicializacion(int width, int height) {
         return -1;
     }
 
+    if (!al_init_ttf_addon()) { // necesario para manejo de fuentes de letras
+        fprintf(stderr, "failed to initialize font addon !\n");
+        return -1;
+    }
 
     display = al_create_display(width*100, height*100);
 
@@ -107,24 +114,36 @@ void create_tablero(int width, int height) {           //se crea el grafico
 
 void create_graph(float* tMedio, int nRobots, int wTiles, int hTiles) {
     
-    al_clear_to_color(al_color_name("black"));
+    
     int width = wTiles * 100;
     int height = hTiles * 100;
-    al_draw_line(50, 50, 50, height - 50, al_map_rgb_f(1, 1, 1), 4);  //se dibuja el eje y
-    al_draw_line(50, height-50, width - 50, height-50, al_map_rgb_f(1, 1, 1), 4);  //se dibuja el eje x
+    al_draw_line(50, 50, 50, height - 50, al_map_rgb_f(0,0,0), 4);  //se dibuja el eje y
+    al_draw_line(50, height-50, width - 50, height-50, al_map_rgb_f(0,0,0), 4);  //se dibuja el eje x
 
-    float ancho = ((width - 100) / (nRobots+0.5)); //se calcula el ancho de cada barra del grafico teniendo en cuenta el ancho del display y un espacio entre cada barra
-    float alto = ((height - 100) / (tMedio[0] + 0.5)); //se calcula el espacio entre cada valor del eje y
+    double ancho = ((  (double)width - 100) / (nRobots+0.5)); //se calcula el ancho de cada barra del grafico teniendo en cuenta el ancho del display y un espacio entre cada barra
+    double alto = (( (double)height - 100) / (tMedio[0] + 0.5)); //se calcula el espacio entre cada valor del eje y
     
     for (int i = 1; i <= nRobots; i++) {
         
-       al_draw_line(50 + ancho * i, height - 52, 50 + ancho * i, (height - 50 ) - (tMedio[i-1] * alto), al_map_rgb_f(1,0,0), ancho/2 );
+       al_draw_line(50 + ancho * i, height - 52, 50 + ancho * i, (height - 50 ) - (tMedio[i-1] * alto), al_map_rgb_f(0,0,1), ancho/2 );
    
     }
+    
 
+    ALLEGRO_FONT* fonte1 = NULL;
+    fonte1 = al_load_ttf_font("Paskowy.ttf", 48, 0);
+    al_draw_text(fonte1, al_map_rgb(255, 0, 255), 450, 50, ALLEGRO_ALIGN_RIGHT, "GRUPO 3");
 
+    ALLEGRO_FONT* fonte2 = NULL;
+    fonte2 = al_load_ttf_font("baby blocks.ttf", 40, 0);
+    al_draw_text(fonte2, al_map_rgb(255, 0, 255), 50, 70, ALLEGRO_ALIGN_RIGHT, "T");
+    al_draw_text(fonte2, al_map_rgb(255, 0, 255), 50, 120, ALLEGRO_ALIGN_RIGHT, "I");
+    al_draw_text(fonte2, al_map_rgb(255, 0, 255), 50, 170, ALLEGRO_ALIGN_RIGHT, "M");
+    al_draw_text(fonte2, al_map_rgb(255, 0, 255), 50, 220, ALLEGRO_ALIGN_RIGHT, "E");
+    al_draw_text(fonte2, al_map_rgb(255, 0, 255), 400,560, ALLEGRO_ALIGN_RIGHT, "N - ROBOTS");
+   
     al_flip_display();
-    al_rest(10);
+    al_rest(900);
     al_shutdown_primitives_addon();
    
     

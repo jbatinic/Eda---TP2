@@ -173,11 +173,15 @@
     <ClInclude Include="allegroEngine.h" />
     <ClInclude Include="floor.h" />
     <ClInclude Include="Header.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="robot.h" />
     <ClInclude Include="simulation.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="robotjpg.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="EDA---TP2.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
