@@ -120,8 +120,8 @@ void create_graph(float* tMedio, int nRobots, int wTiles, int hTiles) {
     al_draw_line(50, 50, 50, height - 50, al_map_rgb_f(0,0,0), 4);  //se dibuja el eje y
     al_draw_line(50, height-50, width - 50, height-50, al_map_rgb_f(0,0,0), 4);  //se dibuja el eje x
 
-    double ancho = ((  (double)width - 100) / (nRobots+0.5)); //se calcula el ancho de cada barra del grafico teniendo en cuenta el ancho del display y un espacio entre cada barra
-    double alto = (( (double)height - 100) / (tMedio[0] + 0.5)); //se calcula el espacio entre cada valor del eje y
+    double ancho = (( (int) width - 100) / (nRobots+0.5)); //se calcula el ancho de cada barra del grafico teniendo en cuenta el ancho del display y un espacio entre cada barra
+    double alto = (((int) height - 100) / (tMedio[0] + 0.5)); //se calcula el espacio entre cada valor del eje y
     
     for (int i = 1; i <= nRobots; i++) {
         
